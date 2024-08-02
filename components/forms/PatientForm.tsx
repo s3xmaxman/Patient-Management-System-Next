@@ -62,6 +62,26 @@ const PatientForm = () => {
           iconSrc="/assets/icons/user.svg"
           iconAlt="user"
         />
+
+        <CustomFormField
+          control={form.control}
+          fieldType={FormFieldType.INPUT}
+          name="email"
+          label="メールアドレス"
+          placeholder="example@example.com"
+          iconSrc="/assets/icons/email.svg"
+          iconAlt="email"
+        />
+
+        <CustomFormField
+          fieldType={FormFieldType.PHONE_INPUT}
+          control={form.control}
+          name="phone"
+          label="電話番号"
+          placeholder="(555) 123-4567"
+        />
+
+        <Button type="submit">送信</Button>
       </form>
     </Form>
   );
