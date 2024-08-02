@@ -1,6 +1,6 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import CustomFormField from "../CustomFormField";
+import SubmitButton from "../SubmitButton";
 
 export enum FormFieldType {
   INPUT = "input",
@@ -32,7 +33,7 @@ const formSchema = z.object({
 
 // PatientFormコンポーネントの定義
 const PatientForm = () => {
-  // 1. フォームを定義
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -40,9 +41,7 @@ const PatientForm = () => {
     },
   });
 
-  // 2. 送信ハンドラーを定義
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // フォームの値を使用
     console.log(values);
   }
 
@@ -82,7 +81,7 @@ const PatientForm = () => {
           placeholder="(555) 123-4567"
         />
 
-        <Button type="submit">送信</Button>
+        <SubmitButton isLoading={isLoading}>送信</SubmitButton>
       </form>
     </Form>
   );
