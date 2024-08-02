@@ -3,8 +3,9 @@ import { E164Number } from "libphonenumber-js/core";
 import Image from "next/image";
 import ReactDatePicker from "react-datepicker";
 import { Control } from "react-hook-form";
-import PhoneInput from "react-phone-number-input";
 
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
 import { Checkbox } from "./ui/checkbox";
 import {
   FormControl,
@@ -16,16 +17,7 @@ import {
 import { Input } from "./ui/input";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "./ui/textarea";
-
-export enum FormFieldType {
-  INPUT = "input",
-  TEXTAREA = "textarea",
-  PHONE_INPUT = "phoneInput",
-  CHECKBOX = "checkbox",
-  DATE_PICKER = "datePicker",
-  SELECT = "select",
-  SKELETON = "skeleton",
-}
+import { FormFieldType } from "./forms/PatientForm";
 
 interface CustomProps {
   control: Control<any>;
@@ -84,18 +76,19 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
 };
 
 const CustomFormField = (props: CustomProps) => {
-  const { control, fieldType, name, label } = props;
+  const { control, name, label } = props;
+
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem>
-          {fieldType !== FormFieldType.CHECKBOX && label && (
-            <FormLabel>{label}</FormLabel>
+        <FormItem className="flex-1">
+          {props.fieldType !== FormFieldType.CHECKBOX && label && (
+            <FormLabel className="shad-input-label">{label}</FormLabel>
           )}
-
           <RenderField field={field} props={props} />
+
           <FormMessage className="shad-error" />
         </FormItem>
       )}

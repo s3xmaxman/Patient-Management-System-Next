@@ -53,6 +53,7 @@ const PatientForm = () => {
           <h1 className="header">こんにちは 👋</h1>
           <p className="text-dark-700">予約を始めましょう。</p>
         </section>
+
         <CustomFormField
           control={form.control}
           fieldType={FormFieldType.INPUT}
