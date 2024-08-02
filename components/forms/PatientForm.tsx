@@ -16,6 +16,16 @@ import {
 import { Input } from "@/components/ui/input";
 import CustomFormField from "../CustomFormField";
 
+export enum FormFieldType {
+  INPUT = "input",
+  TEXTAREA = "textarea",
+  PHONE_INPUT = "phoneInput",
+  CHECKBOX = "checkbox",
+  DATE_PICKER = "datePicker",
+  SELECT = "select",
+  SKELETON = "skeleton",
+}
+
 const formSchema = z.object({
   username: z.string().min(2).max(50),
 });
@@ -43,7 +53,15 @@ const PatientForm = () => {
           <h1 className="header">こんにちは 👋</h1>
           <p className="text-dark-700">予約を始めましょう。</p>
         </section>
-        <CustomFormField control={form.control} />
+        <CustomFormField
+          control={form.control}
+          fieldType={FormFieldType.INPUT}
+          name="name"
+          label="氏名"
+          placeholder="山田 太郎"
+          iconSrc="/assets/icons/user.svg"
+          iconAlt="user"
+        />
       </form>
     </Form>
   );
