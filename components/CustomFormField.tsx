@@ -44,6 +44,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
     dateFormat,
     showTimeSelect,
     renderSkeleton,
+    children,
   } = props;
   switch (props.fieldType) {
     case FormFieldType.INPUT:
@@ -105,6 +106,21 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
       );
     case FormFieldType.SKELETON:
       return renderSkeleton ? renderSkeleton(field) : null;
+    case FormFieldType.SELECT:
+      return (
+        <FormControl>
+          <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <FormControl>
+              <SelectTrigger className="shad-select-trigger">
+                <SelectValue placeholder={placeholder} />
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent className="shad-select-content">
+              {children}
+            </SelectContent>
+          </Select>
+        </FormControl>
+      );
   }
 };
 

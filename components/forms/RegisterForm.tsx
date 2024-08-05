@@ -21,8 +21,10 @@ import { useRouter } from "next/navigation";
 import { createUser } from "@/lib/actions/patient.actions";
 import { FormFieldType } from "./PatientForm";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { GenderOptions } from "@/constans";
+import { Doctors, GenderOptions } from "@/constans";
 import { Label } from "../ui/label";
+import Image from "next/image";
+import { SelectItem } from "../ui/select";
 
 const RegisterForm = ({ user }: { user: User }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -66,7 +68,6 @@ const RegisterForm = ({ user }: { user: User }) => {
           <div className="mb-9 space-y-1">
             <h2 className="sub-header">個人情報の入力</h2>
           </div>
-
           <CustomFormField
             control={form.control}
             fieldType={FormFieldType.INPUT}
@@ -85,7 +86,6 @@ const RegisterForm = ({ user }: { user: User }) => {
               iconSrc="/assets/icons/email.svg"
               iconAlt="email"
             />
-
             <CustomFormField
               fieldType={FormFieldType.PHONE_INPUT}
               control={form.control}
@@ -133,7 +133,71 @@ const RegisterForm = ({ user }: { user: User }) => {
               )}
             />
           </div>
+
+          <div className="flex flex-col gap-6 xl:flex-row">
+            <CustomFormField
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
+              name="address"
+              label="住所"
+              placeholder="大阪市中央区天神町5-1"
+            />
+            <CustomFormField
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
+              name="occupation"
+              label="職業"
+              placeholder="ソフトウェアエンジニア"
+            />
+          </div>
+
+          <div className="flex flex-col gap-6 xl:flex-row">
+            <CustomFormField
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
+              name="emergencyContactName"
+              label="緊急連絡先"
+              placeholder="田中 太郎"
+            />
+
+            <CustomFormField
+              fieldType={FormFieldType.PHONE_INPUT}
+              control={form.control}
+              name="emergencyContactNumber"
+              label="緊急連絡先番号"
+              placeholder="090-1234-5678"
+            />
+          </div>
         </section>
+
+        <section className="space-y-6">
+          <div className="mb-9 space-y-1">
+            <h2 className="sub-header">診療情報</h2>
+          </div>
+        </section>
+
+        <CustomFormField
+          fieldType={FormFieldType.SELECT}
+          control={form.control}
+          name="primaryPhysician"
+          label="主治医"
+          placeholder="主治医を選択してください"
+        >
+          {Doctors.map((doctor, i) => (
+            <SelectItem key={doctor.name + i} value={doctor.name}>
+              <div className="flex cursor-pointer items-center gap-2">
+                <Image
+                  src={doctor.image}
+                  width={32}
+                  height={32}
+                  alt="doctor"
+                  className="rounded-full border border-dark-500"
+                />
+                <p>{doctor.name}</p>
+              </div>
+            </SelectItem>
+          ))}
+        </CustomFormField>
 
         <SubmitButton isLoading={isLoading}>送信</SubmitButton>
       </form>
