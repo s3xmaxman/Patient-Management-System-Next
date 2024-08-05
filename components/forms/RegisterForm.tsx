@@ -19,19 +19,9 @@ import SubmitButton from "../SubmitButton";
 import { UserFormValidation } from "@/lib/validation";
 import { useRouter } from "next/navigation";
 import { createUser } from "@/lib/actions/patient.actions";
+import { FormFieldType } from "./PatientForm";
 
-export enum FormFieldType {
-  INPUT = "input",
-  TEXTAREA = "textarea",
-  PHONE_INPUT = "phoneInput",
-  CHECKBOX = "checkbox",
-  DATE_PICKER = "datePicker",
-  SELECT = "select",
-  SKELETON = "skeleton",
-}
-
-// PatientFormコンポーネントの定義
-const PatientForm = () => {
+const RegisterForm = ({ user }: { user: User }) => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof UserFormValidation>>({
@@ -55,13 +45,12 @@ const PatientForm = () => {
       const user = await createUser(userData);
 
       if (user) {
-        router.push(`/patients/${user.$id}/register`);
+        router.push(`/patients/${user.id}/register`);
       }
     } catch (error) {
       console.log(error);
     }
   }
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex-1 space-y-6">
@@ -80,28 +69,10 @@ const PatientForm = () => {
           iconAlt="user"
         />
 
-        <CustomFormField
-          control={form.control}
-          fieldType={FormFieldType.INPUT}
-          name="email"
-          label="メールアドレス"
-          placeholder="example@example.com"
-          iconSrc="/assets/icons/email.svg"
-          iconAlt="email"
-        />
-
-        <CustomFormField
-          fieldType={FormFieldType.PHONE_INPUT}
-          control={form.control}
-          name="phone"
-          label="電話番号"
-          placeholder="(555) 123-4567"
-        />
-
         <SubmitButton isLoading={isLoading}>送信</SubmitButton>
       </form>
     </Form>
   );
 };
 
-export default PatientForm;
+export default RegisterForm;

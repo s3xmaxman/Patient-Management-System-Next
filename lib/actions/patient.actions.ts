@@ -30,3 +30,19 @@ export const createUser = async (user: CreateUserParams) => {
     }
   }
 };
+
+/**
+ * 指定されたユーザーIDのユーザー情報を取得する非同期関数
+ *
+ * @param userId - ユーザーID (string)
+ * @returns ユーザー情報 (object) または undefined
+ * @throws エラーが発生した場合、エラー内容をコンソールに出力
+ */
+export const getUser = async (userId: string) => {
+  try {
+    const user = await users.get(userId);
+    return parseStringify(user);
+  } catch (error) {
+    console.log(error);
+  }
+};
