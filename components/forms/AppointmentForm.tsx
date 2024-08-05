@@ -3,23 +3,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+
+import { Form } from "@/components/ui/form";
+
 import CustomFormField from "../CustomFormField";
 import SubmitButton from "../SubmitButton";
-import { getAppointmentSchema, UserFormValidation } from "@/lib/validation";
+import { getAppointmentSchema } from "@/lib/validation";
 import { useRouter } from "next/navigation";
-import { createUser } from "@/lib/actions/patient.actions";
-import { Doctors } from "@/constans";
+
+import { Doctors } from "@/constants";
 import { SelectItem } from "../ui/select";
 import Image from "next/image";
 import { createAppointment } from "@/lib/actions/appointment.actions";
