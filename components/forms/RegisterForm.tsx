@@ -21,10 +21,11 @@ import { useRouter } from "next/navigation";
 import { createUser } from "@/lib/actions/patient.actions";
 import { FormFieldType } from "./PatientForm";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { Doctors, GenderOptions } from "@/constans";
+import { Doctors, GenderOptions, IdentificationTypes } from "@/constans";
 import { Label } from "../ui/label";
 import Image from "next/image";
 import { SelectItem } from "../ui/select";
+import FileUploader from "../FileUploader";
 
 const RegisterForm = ({ user }: { user: User }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -251,6 +252,46 @@ const RegisterForm = ({ user }: { user: User }) => {
               placeholder="2015年に虫垂切除、小児期に喘息と診断"
             />
           </div>
+        </section>
+
+        <section className="space-y-6">
+          <div className="mb-9 space-y-1">
+            <h2 className="sub-header">本人確認と検証</h2>
+          </div>
+
+          <CustomFormField
+            fieldType={FormFieldType.SELECT}
+            control={form.control}
+            name="identificationType"
+            label="身分証明書の種類"
+            placeholder="身分証明書の種類を選択"
+          >
+            {IdentificationTypes.map((type, i) => (
+              <SelectItem key={type + i} value={type}>
+                {type}
+              </SelectItem>
+            ))}
+          </CustomFormField>
+
+          <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="identificationNumber"
+            label="身分証明書番号"
+            placeholder="123456789"
+          />
+
+          <CustomFormField
+            fieldType={FormFieldType.SKELETON}
+            control={form.control}
+            name="identificationDocument"
+            label="身分証明書のスキャンコピー"
+            renderSkeleton={(field) => (
+              <FormControl>
+                <FileUploader files={field.value} onChange={field.onChange} />
+              </FormControl>
+            )}
+          />
         </section>
 
         <SubmitButton isLoading={isLoading}>送信</SubmitButton>
