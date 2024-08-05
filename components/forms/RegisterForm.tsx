@@ -77,6 +77,7 @@ const RegisterForm = ({ user }: { user: User }) => {
             iconSrc="/assets/icons/user.svg"
             iconAlt="user"
           />
+
           <div className="flex flex-col gap-6 xl:flex-row">
             <CustomFormField
               control={form.control}
@@ -87,6 +88,7 @@ const RegisterForm = ({ user }: { user: User }) => {
               iconSrc="/assets/icons/email.svg"
               iconAlt="email"
             />
+
             <CustomFormField
               fieldType={FormFieldType.PHONE_INPUT}
               control={form.control}
@@ -103,6 +105,7 @@ const RegisterForm = ({ user }: { user: User }) => {
               name="birthDate"
               label="生年月日"
             />
+
             <CustomFormField
               fieldType={FormFieldType.SKELETON}
               control={form.control}
@@ -143,6 +146,7 @@ const RegisterForm = ({ user }: { user: User }) => {
               label="住所"
               placeholder="大阪市中央区天神町5-1"
             />
+
             <CustomFormField
               fieldType={FormFieldType.INPUT}
               control={form.control}
@@ -291,6 +295,33 @@ const RegisterForm = ({ user }: { user: User }) => {
                 <FileUploader files={field.value} onChange={field.onChange} />
               </FormControl>
             )}
+          />
+        </section>
+
+        <section className="space-y-6">
+          <div className="mb-9 space-y-1">
+            <h2 className="sub-header">承諾とプライバシー</h2>
+          </div>
+
+          <CustomFormField
+            fieldType={FormFieldType.CHECKBOX}
+            control={form.control}
+            name="treatmentConsent"
+            label="医療行為を受けることに同意します。"
+          />
+
+          <CustomFormField
+            fieldType={FormFieldType.CHECKBOX}
+            control={form.control}
+            name="disclosureConsent"
+            label="私は治療目的のための私の健康情報の使用と開示に同意します。"
+          />
+
+          <CustomFormField
+            fieldType={FormFieldType.CHECKBOX}
+            control={form.control}
+            name="privacyConsent"
+            label="私はプライバシーポリシーを確認し、同意したことを認めます。"
           />
         </section>
 

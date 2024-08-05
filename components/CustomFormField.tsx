@@ -45,6 +45,8 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
     showTimeSelect,
     renderSkeleton,
     children,
+    name,
+    label,
   } = props;
   switch (props.fieldType) {
     case FormFieldType.INPUT:
@@ -130,6 +132,22 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
             className="shad-textArea"
             disabled={props.disabled}
           />
+        </FormControl>
+      );
+    case FormFieldType.CHECKBOX:
+      return (
+        <FormControl>
+          <div className="flex items-center gap-4">
+            <Checkbox
+              id={name}
+              checked={field.value}
+              onCheckedChange={field.onChange}
+              className="shad-checkbox"
+            />
+            <label htmlFor={name} className="checkbox-label">
+              {label}
+            </label>
+          </div>
         </FormControl>
       );
   }
