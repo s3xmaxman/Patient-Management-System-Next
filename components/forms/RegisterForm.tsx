@@ -20,6 +20,9 @@ import { UserFormValidation } from "@/lib/validation";
 import { useRouter } from "next/navigation";
 import { createUser } from "@/lib/actions/patient.actions";
 import { FormFieldType } from "./PatientForm";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { GenderOptions } from "@/constans";
+import { Label } from "../ui/label";
 
 const RegisterForm = ({ user }: { user: User }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -54,20 +57,83 @@ const RegisterForm = ({ user }: { user: User }) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex-1 space-y-6">
-        <section className="mb-12 space-y-4">
-          <h1 className="header">こんにちは 👋</h1>
-          <p className="text-dark-700">予約を始めましょう。</p>
+        <section className="space-y-4">
+          <h1 className="header">ご利用ありがとうございます</h1>
+          <p className="text-dark-700">あなたの情報をお知らせください。</p>
         </section>
 
-        <CustomFormField
-          control={form.control}
-          fieldType={FormFieldType.INPUT}
-          name="name"
-          label="氏名"
-          placeholder="山田 太郎"
-          iconSrc="/assets/icons/user.svg"
-          iconAlt="user"
-        />
+        <section className="space-y-6">
+          <div className="mb-9 space-y-1">
+            <h2 className="sub-header">個人情報の入力</h2>
+          </div>
+
+          <CustomFormField
+            control={form.control}
+            fieldType={FormFieldType.INPUT}
+            name="name"
+            placeholder="山田 太郎"
+            iconSrc="/assets/icons/user.svg"
+            iconAlt="user"
+          />
+          <div className="flex flex-col gap-6 xl:flex-row">
+            <CustomFormField
+              control={form.control}
+              fieldType={FormFieldType.INPUT}
+              name="email"
+              label="メールアドレス"
+              placeholder="example@example.com"
+              iconSrc="/assets/icons/email.svg"
+              iconAlt="email"
+            />
+
+            <CustomFormField
+              fieldType={FormFieldType.PHONE_INPUT}
+              control={form.control}
+              name="phone"
+              label="電話番号"
+              placeholder="(555) 123-4567"
+            />
+          </div>
+
+          <div className="flex flex-col gap-6 xl:flex-row">
+            <CustomFormField
+              fieldType={FormFieldType.DATE_PICKER}
+              control={form.control}
+              name="birthDate"
+              label="生年月日"
+            />
+            <CustomFormField
+              fieldType={FormFieldType.SKELETON}
+              control={form.control}
+              name="gender"
+              label="性別"
+              renderSkeleton={(field) => (
+                <FormControl>
+                  <RadioGroup
+                    className="flex h-11 gap-6 xl:justify-between"
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    {GenderOptions.map((option, i) => (
+                      <div key={option.value + i} className="radio-group">
+                        <RadioGroupItem
+                          value={option.value}
+                          id={option.value}
+                        />
+                        <Label
+                          htmlFor={option.value}
+                          className="cursor-pointer"
+                        >
+                          {option.label}
+                        </Label>
+                      </div>
+                    ))}
+                  </RadioGroup>
+                </FormControl>
+              )}
+            />
+          </div>
+        </section>
 
         <SubmitButton isLoading={isLoading}>送信</SubmitButton>
       </form>
