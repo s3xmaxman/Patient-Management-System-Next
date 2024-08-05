@@ -58,6 +58,26 @@ export const getUser = async (userId: string) => {
 };
 
 /**
+ * 指定されたユーザーIDに基づいて患者情報を取得する非同期関数
+ *
+ * @param userId - ユーザーID (string)
+ * @returns 患者情報 (object) または undefined
+ * @throws エラーが発生した場合、エラー内容をコンソールに出力
+ */
+export const getPatient = async (userId: string) => {
+  try {
+    const patient = await databases.listDocuments(
+      DATABASE_ID!,
+      PATIENT_COLLECTION_ID!,
+      [Query.equal("userId", [userId])]
+    );
+    return parseStringify(patient);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+/**
  * 患者の登録を行う非同期関数
  *
  * @param {RegisterUserParams} - 患者の情報を含むオブジェクト
