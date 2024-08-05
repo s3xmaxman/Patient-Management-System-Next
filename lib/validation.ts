@@ -23,7 +23,7 @@ export const PatientFormValidation = z.object({
     .string()
     .refine((phone) => /^\+\d{10,15}$/.test(phone), "無効な電話番号です"),
   birthDate: z.coerce.date(),
-  gender: z.enum(["Male", "Female", "Other"]), // 男性、女性、その他
+  gender: z.enum(["male", "female", "other"]), // 男性、女性、その他
   address: z
     .string()
     .min(5, "住所は5文字以上でなければなりません")
