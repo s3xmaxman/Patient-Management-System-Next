@@ -31,3 +31,24 @@ export const createAppointment = async (
     console.error(error);
   }
 };
+
+/**
+ * 指定されたアポイントメントIDに基づいてアポイントメントを取得する非同期関数
+ *
+ * @param {string} appointmentId - 取得するアポイントメントのID
+ * @returns {Promise<any>} - 取得したアポイントメントのデータ
+ * @throws {Error} - アポイントメントの取得中にエラーが発生した場合
+ */
+export const getAppointments = async (appointmentId: string) => {
+  try {
+    const appointments = await databases.getDocument(
+      DATABASE_ID!,
+      APPOINTMENT_COLLECTION_ID!,
+      appointmentId
+    );
+
+    return parseStringify(appointments);
+  } catch (error) {
+    console.error(error);
+  }
+};
