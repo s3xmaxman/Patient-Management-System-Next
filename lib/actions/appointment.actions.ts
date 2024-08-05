@@ -1,3 +1,5 @@
+"use server";
+
 import { ID } from "node-appwrite";
 import {
   APPOINTMENT_COLLECTION_ID,
@@ -21,11 +23,11 @@ export const createAppointment = async (
       DATABASE_ID!,
       APPOINTMENT_COLLECTION_ID!,
       ID.unique(),
-      { ...appointment }
+      appointment
     );
 
     return parseStringify(newAppointment);
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };

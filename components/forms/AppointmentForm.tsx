@@ -77,6 +77,7 @@ const PatientForm = ({
           note: values.note,
           status: status as Status,
         };
+
         const appointment = await createAppointment(appointmentData);
 
         if (appointment) {
