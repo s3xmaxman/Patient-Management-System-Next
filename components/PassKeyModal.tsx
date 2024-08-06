@@ -45,7 +45,7 @@ const PassKeyModal = () => {
   }, [encryptedKey]);
 
   const validatePasskey = (
-    e: React.MouseEvent<HTMLInputElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
 
@@ -55,7 +55,7 @@ const PassKeyModal = () => {
       localStorage.setItem("passkey", encryptedKey);
       setOpen(false);
     } else {
-      setError("パスキーが正しくありません。");
+      setError("パスキーが正しくありません。");
     }
   };
 
