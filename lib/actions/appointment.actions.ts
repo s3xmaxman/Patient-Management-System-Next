@@ -1,12 +1,13 @@
 "use server";
 
-import { ID } from "node-appwrite";
+import { ID, Query } from "node-appwrite";
 import {
   APPOINTMENT_COLLECTION_ID,
   DATABASE_ID,
   databases,
 } from "../appwrite.config";
 import { parseStringify } from "../utils";
+import { Appointment } from "@/types/appwrite.types";
 
 /**
  * 新しいアポイントメントを作成する非同期関数
@@ -52,3 +53,56 @@ export const getAppointments = async (appointmentId: string) => {
     console.error(error);
   }
 };
+
+/**
+ * 最近のアポイントメントを取得する非同期関数
+ *
+ * @returns {Promise<any>} - 取得したアポイントメントのデータとカウント
+ * @throws {Error} - アポイントメントの取得中にエラーが発生した場合
+ */
+export const getRecentAppointments = async () => {
+  try {
+    const appointments = await databases.listDocuments(
+      DATABASE_ID!,
+      APPOINTMENT_COLLECTION_ID!,
+      [Query.orderDesc("$createdAt")]
+    );
+
+    const initialCount = {
+      scheduledCount: 0,
+      pendingCount: 0,
+      cancelledCount: 0,
+    };
+
+    const counts = (appointments.documents as Appointment[]).reduce(
+      (acc, appointment) => {
+        if (appointment.status === "scheduled") {
+          acc.scheduledCount += 1;
+        } else if (appointment.status === "pending") {
+          acc.pendingCount += 1;
+        } else if (appointment.status === "cancelled") {
+          acc.cancelledCount += 1;
+        }
+        return acc;
+      },
+      initialCount
+    );
+
+    const data = {
+      totalCount: appointments.total,
+      ...counts,
+      documents: appointments.documents,
+    };
+
+    return parseStringify(data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateAppointment = async ({
+  appointmentId,
+  userId,
+  appointment,
+  type,
+}: UpdateAppointmentParams) => {};
