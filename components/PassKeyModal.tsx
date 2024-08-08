@@ -25,12 +25,14 @@ import { decryptKey, encryptKey } from "@/lib/utils";
 const PassKeyModal = () => {
   const router = useRouter();
   const path = usePathname();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [passkey, setPasskey] = useState("");
   const [error, setError] = useState("");
 
   const encryptedKey =
-    typeof window !== "undefined" ? localStorage.getItem("passkey") : null;
+    typeof window !== "undefined"
+      ? window.localStorage.getItem("accessKey")
+      : null;
 
   useEffect(() => {
     const accessKey = encryptedKey && decryptKey(encryptedKey);
@@ -44,6 +46,11 @@ const PassKeyModal = () => {
       }
   }, [encryptedKey]);
 
+  const closeModal = () => {
+    setOpen(false);
+    router.push("/");
+  };
+
   const validatePasskey = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -52,16 +59,12 @@ const PassKeyModal = () => {
     if (passkey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY) {
       const encryptedKey = encryptKey(passkey);
 
-      localStorage.setItem("passkey", encryptedKey);
+      localStorage.setItem("accessKey", encryptedKey);
+
       setOpen(false);
     } else {
-      setError("パスキーが正しくありません。");
+      setError("Invalid passkey. Please try again.");
     }
-  };
-
-  const closeModal = () => {
-    setOpen(false);
-    router.push("/");
   };
 
   return (
