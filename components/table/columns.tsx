@@ -19,7 +19,7 @@ const columns: ColumnDef<Appointment>[] = [
   },
   {
     accessorKey: "patient",
-    header: "Patient",
+    header: "患者名",
     cell: ({ row }) => {
       const appointment = row.original;
       return <p className="text-14-medium ">{appointment.patient.name}</p>;
@@ -27,7 +27,7 @@ const columns: ColumnDef<Appointment>[] = [
   },
   {
     accessorKey: "status",
-    header: "Status",
+    header: "ステータス",
     cell: ({ row }) => {
       const appointment = row.original;
       return (
@@ -39,7 +39,7 @@ const columns: ColumnDef<Appointment>[] = [
   },
   {
     accessorKey: "schedule",
-    header: "Appointment",
+    header: "アポイントメント",
     cell: ({ row }) => {
       const appointment = row.original;
       return (
@@ -51,7 +51,7 @@ const columns: ColumnDef<Appointment>[] = [
   },
   {
     accessorKey: "primaryPhysician",
-    header: "Doctor",
+    header: "主治医",
     cell: ({ row }) => {
       const appointment = row.original;
 
@@ -75,7 +75,7 @@ const columns: ColumnDef<Appointment>[] = [
   },
   {
     id: "actions",
-    header: () => <div className="pl-4">Actions</div>,
+    header: () => <div className="pl-4">確認</div>,
     cell: ({ row }) => {
       const appointment = row.original;
 
@@ -86,16 +86,16 @@ const columns: ColumnDef<Appointment>[] = [
             userId={appointment.userId}
             appointment={appointment}
             type="schedule"
-            title="Schedule Appointment"
-            description="Please confirm the following details to schedule."
+            title="予約の確認"
+            description="以下の詳細を確認して予約してください。"
           />
           <AppointmentModal
             patientId={appointment.patient.$id}
             userId={appointment.userId}
             appointment={appointment}
             type="cancel"
-            title="Cancel Appointment"
-            description="Are you sure you want to cancel your appointment?"
+            title="予約のキャンセル"
+            description="本当に予約をキャンセルしますか？"
           />
         </div>
       );

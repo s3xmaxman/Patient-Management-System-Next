@@ -32,6 +32,11 @@ const AppointmentModal = ({
 }) => {
   const [open, setOpen] = useState(false);
 
+  const translateType = (type: "schedule" | "cancel") => {
+    if (type === "schedule") return "アポイントメント";
+    if (type === "cancel") return "キャンセル";
+  };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -39,14 +44,16 @@ const AppointmentModal = ({
           variant="ghost"
           className={`capitalize ${type === "schedule" && "text-green-500"}`}
         >
-          {type}
+          {translateType(type)}
         </Button>
       </DialogTrigger>
       <DialogContent className="shad-dialog sm:max-w-md">
         <DialogHeader className="mb-4 space-y-3">
-          <DialogTitle className="capitalize">{type} Appointment</DialogTitle>
+          <DialogTitle className="capitalize">
+            {translateType(type)}
+          </DialogTitle>
           <DialogDescription>
-            Please fill in the following details to {type} appointment
+            予約のために以下の詳細を入力してください
           </DialogDescription>
         </DialogHeader>
 
