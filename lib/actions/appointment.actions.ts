@@ -8,6 +8,8 @@ import {
 } from "../appwrite.config";
 import { parseStringify } from "../utils";
 import { Appointment } from "@/types/appwrite.types";
+import { revalidatePath } from "next/cache";
+import { Smooch_Sans } from "next/font/google";
 
 /**
  * 新しいアポイントメントを作成する非同期関数
@@ -29,7 +31,7 @@ export const createAppointment = async (
 
     return parseStringify(newAppointment);
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
 };
 
@@ -50,7 +52,7 @@ export const getAppointments = async (appointmentId: string) => {
 
     return parseStringify(appointments);
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
 };
 
@@ -96,7 +98,7 @@ export const getRecentAppointments = async () => {
 
     return parseStringify(data);
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
 };
 
@@ -105,4 +107,24 @@ export const updateAppointment = async ({
   userId,
   appointment,
   type,
-}: UpdateAppointmentParams) => {};
+}: UpdateAppointmentParams) => {
+  try {
+    const updateAppointment = await databases.updateDocument(
+      DATABASE_ID!,
+      APPOINTMENT_COLLECTION_ID!,
+      appointmentId,
+      appointment
+    );
+
+    if (!updateAppointment) {
+      throw new Error("Failed to update appointment");
+    }
+
+    // TODO: SMS notification
+
+    revalidatePath("/admin");
+    return parseStringify(updateAppointment);
+  } catch (error) {
+    console.log(error);
+  }
+};
