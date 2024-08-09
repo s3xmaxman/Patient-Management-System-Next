@@ -5,11 +5,11 @@ import {
   APPOINTMENT_COLLECTION_ID,
   DATABASE_ID,
   databases,
+  messaging,
 } from "../appwrite.config";
-import { parseStringify } from "../utils";
+import { parseStringify, formatDateTime } from "../utils";
 import { Appointment } from "@/types/appwrite.types";
 import { revalidatePath } from "next/cache";
-import { Smooch_Sans } from "next/font/google";
 
 /**
  * 新しいアポイントメントを作成する非同期関数
@@ -120,10 +120,42 @@ export const updateAppointment = async ({
       throw new Error("Failed to update appointment");
     }
 
-    // TODO: SMS notification
+    const smsMessage = `CarePulseからのご挨拶です。${
+      type === "schedule"
+        ? `あなたのアポイントメントは、${
+            formatDateTime(appointment.schedule!).dateTime
+          }にDr. ${appointment.primaryPhysician}との確認が取れました。`
+        : `残念ながら、あなたのアポイントメントは${
+            formatDateTime(appointment.schedule!).dateTime
+          }にキャンセルされました。理由: ${appointment.cancellationReason}`
+    }`;
+    await sendSMSNotification(userId, smsMessage);
 
     revalidatePath("/admin");
     return parseStringify(updateAppointment);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+/**
+ * SMS通知を送信する非同期関数
+ *
+ * @param {string} userId - SMSを受信するユーザーのID
+ * @param {string} content - 送信するメッセージの内容
+ * @returns {Promise<any>} - 送信されたメッセージのデータ
+ * @throws {Error} - SMSの送信中にエラーが発生した場合
+ */
+export const sendSMSNotification = async (userId: string, content: string) => {
+  try {
+    const message = await messaging.createSms(
+      ID.unique(),
+      content,
+      [],
+      [userId]
+    );
+
+    return parseStringify(message);
   } catch (error) {
     console.log(error);
   }
