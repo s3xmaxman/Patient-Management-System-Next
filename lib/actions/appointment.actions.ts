@@ -102,6 +102,15 @@ export const getRecentAppointments = async () => {
   }
 };
 
+/**
+ * アポイントメントの更新を行う非同期関数。
+ *
+ * @param {UpdateAppointmentParams} appointmentId - アポイントメントID
+ * @param {UpdateAppointmentParams} userId - ユーザーID
+ * @param {UpdateAppointmentParams} appointment - アポイントメントの更新内容
+ * @param {UpdateAppointmentParams} type - アポイントメントのタイプ（scheduleまたはcancel）
+ * @return {Promise<any>} 更新されたアポイントメントのデータ
+ */
 export const updateAppointment = async ({
   appointmentId,
   userId,
